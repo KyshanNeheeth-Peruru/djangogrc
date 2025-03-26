@@ -1,0 +1,308 @@
+[
+  {
+    "content": "1. Available-for-sale debt securities and equity securities with readily determinable fair values not held for trading",
+    "metadata": {
+      "FFIEC031": {
+        "Schedule Name": "Schedule RC-Q",
+        "Schedule Category": "Assets",
+        "Regulatory Code": ["RCFD", "BHCK"],
+        "matched values": [
+          {
+            "line": "Available-for-sale securities - Long Term",
+            "region": "NAM",
+            "country": "USA",
+            "date": "15 Jan 2021",
+            "similarity_index": "84%",
+            "mdrm_values": ["JA36", "G474", "G475"]
+          },
+          {
+            "line": "Available-for-sale securities - Short Term",
+            "region": "NAM",
+            "country": "Canada",
+            "date": "19 Jun 2020",
+            "similarity_index": "78%",
+            "mdrm_values": ["G476", "G477"]
+          }
+        ]
+      },
+      "FRY9C": {
+        "Schedule Name": "Schedule HC-Q",
+        "Schedule Category": "Assets",
+        "Regulatory Code": ["RCFD", "BHCK"],
+        "matched values": [
+          {
+            "line": "Available-for-sale securities - Long Term",
+            "region": "LATAM",
+            "country": "Mexico",
+            "date": "12 Feb 2023",
+            "similarity_index": "81%",
+            "mdrm_values": ["JA36", "G474", "G475"]
+          },
+          {
+            "line": "Available-for-sale securities - Short Term",
+            "region": "LATAM",
+            "country": "Brazil",
+            "date": "03 Mar 2021",
+            "similarity_index": "72%",
+            "mdrm_values": ["G476", "G477"]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "content": "2. Federal funds sold and securities purchased under agreements to resell",
+    "metadata": {
+      "FFIEC031": {
+        "Schedule Name": "Schedule RC-Q",
+        "Schedule Category": "Assets",
+        "Regulatory Code": ["RCFD", "BHCK"],
+        "matched values": [
+          {
+            "line": "Federal funds - Main Transactions",
+            "region": "EMEA",
+            "country": "UK",
+            "date": "10 Oct 2022",
+            "similarity_index": "90%",
+            "mdrm_values": ["G478", "G479", "G480"]
+          },
+          {
+            "line": "Federal funds - Agreement Securities",
+            "region": "EMEA",
+            "country": "France",
+            "date": "08 Sep 2020",
+            "similarity_index": "69%",
+            "mdrm_values": ["G481", "G482"]
+          }
+        ]
+      },
+      "FRY9C": {
+        "Schedule Name": "Schedule HC-Q",
+        "Schedule Category": "Assets",
+        "Regulatory Code": ["RCFD", "BHCK"],
+        "matched values": [
+          {
+            "line": "Federal funds - Main Transactions",
+            "region": "APAC",
+            "country": "India",
+            "date": "04 Apr 2023",
+            "similarity_index": "86%",
+            "mdrm_values": ["G478", "G479", "G480"]
+          },
+          {
+            "line": "Federal funds - Agreement Securities",
+            "region": "APAC",
+            "country": "Australia",
+            "date": "21 Dec 2021",
+            "similarity_index": "73%",
+            "mdrm_values": ["G481", "G482"]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "content": "3. Loans and leases held for sale",
+    "metadata": {
+      "FFIEC031": {
+        "Schedule Name": "Schedule RC-Q",
+        "Schedule Category": "Assets",
+        "Regulatory Code": ["RCFD", "BHCK"],
+        "matched values": [
+          {
+            "line": "Loans held for sale - Long Term",
+            "region": "EMEA",
+            "country": "Germany",
+            "date": "14 Jul 2021",
+            "similarity_index": "82%",
+            "mdrm_values": ["G483", "G484"]
+          },
+          {
+            "line": "Loans held for sale - Short Term",
+            "region": "LATAM",
+            "country": "Brazil",
+            "date": "29 Aug 2020",
+            "similarity_index": "66%",
+            "mdrm_values": ["G485", "G486", "G487"]
+          }
+        ]
+      },
+      "FRY9C": {
+        "Schedule Name": "Schedule HC-Q",
+        "Schedule Category": "Assets",
+        "Regulatory Code": ["RCFD", "BHCK"],
+        "matched values": [
+          {
+            "line": "Loans held for sale - Long Term",
+            "region": "APAC",
+            "country": "Australia",
+            "date": "18 May 2022",
+            "similarity_index": "76%",
+            "mdrm_values": ["G483", "G484"]
+          },
+          {
+            "line": "Loans held for sale - Short Term",
+            "region": "NAM",
+            "country": "Canada",
+            "date": "07 Nov 2019",
+            "similarity_index": "60%",
+            "mdrm_values": ["G485", "G486", "G487"]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "content": "4. Loans and leases held for investment",
+    "metadata": {
+      "FFIEC031": {
+        "Schedule Name": "Schedule RC-Q",
+        "Schedule Category": "Assets",
+        "Regulatory Code": ["RCFD", "BHCK"],
+        "matched values": [
+          {
+            "line": "Loans held for investment - Commercial",
+            "region": "LATAM",
+            "country": "Mexico",
+            "date": "05 Mar 2023",
+            "similarity_index": "83%",
+            "mdrm_values": ["G488", "G489", "G490"]
+          },
+          {
+            "line": "Loans held for investment - Residential",
+            "region": "APAC",
+            "country": "India",
+            "date": "11 Jan 2021",
+            "similarity_index": "58%",
+            "mdrm_values": ["G491", "G492"]
+          }
+        ]
+      },
+      "FRY9C": {
+        "Schedule Name": "Schedule HC-Q",
+        "Schedule Category": "Assets",
+        "Regulatory Code": ["RCFD", "BHCK"],
+        "matched values": [
+          {
+            "line": "Loans held for investment - Commercial",
+            "region": "EMEA",
+            "country": "France",
+            "date": "23 Jun 2022",
+            "similarity_index": "85%",
+            "mdrm_values": ["G488", "G489", "G490"]
+          },
+          {
+            "line": "Loans held for investment - Residential",
+            "region": "NAM",
+            "country": "USA",
+            "date": "16 Dec 2020",
+            "similarity_index": "71%",
+            "mdrm_values": ["G491", "G492"]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "content": "5. Trading assets (a). Derivative assets",
+    "metadata": {
+      "FFIEC031": {
+        "Schedule Name": "Schedule RC-Q",
+        "Schedule Category": "Assets",
+        "Regulatory Code": ["RCFD", "BHCK"],
+        "matched values": [
+          {
+            "line": "Derivative Assets - Interest Rate",
+            "region": "APAC",
+            "country": "China",
+            "date": "02 Feb 2021",
+            "similarity_index": "77%",
+            "mdrm_values": ["3543", "G493"]
+          },
+          {
+            "line": "Derivative Assets - FX Contracts",
+            "region": "EMEA",
+            "country": "Germany",
+            "date": "28 Aug 2023",
+            "similarity_index": "68%",
+            "mdrm_values": ["G494", "G495", "G496"]
+          }
+        ]
+      },
+      "FRY9C": {
+        "Schedule Name": "Schedule HC-Q",
+        "Schedule Category": "Assets",
+        "Regulatory Code": ["RCFD", "BHCK"],
+        "matched values": [
+          {
+            "line": "Derivative Assets - Interest Rate",
+            "region": "NAM",
+            "country": "Canada",
+            "date": "09 Apr 2020",
+            "similarity_index": "59%",
+            "mdrm_values": ["3543", "G493"]
+          },
+          {
+            "line": "Derivative Assets - FX Contracts",
+            "region": "LATAM",
+            "country": "Brazil",
+            "date": "26 Sep 2021",
+            "similarity_index": "74%",
+            "mdrm_values": ["G494", "G495", "G496"]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "content": "5. Trading assets (b). Other trading assets",
+    "metadata": {
+      "FFIEC031": {
+        "Schedule Name": "Schedule RC-Q",
+        "Schedule Category": "Assets",
+        "Regulatory Code": ["RCFD", "BHCK"],
+        "matched values": [
+          {
+            "line": "Other Trading Assets - Corporate Bonds",
+            "region": "NAM",
+            "country": "USA",
+            "date": "12 Feb 2022",
+            "similarity_index": "70%",
+            "mdrm_values": ["G497", "G498"]
+          },
+          {
+            "line": "Other Trading Assets - Equity Securities",
+            "region": "LATAM",
+            "country": "Mexico",
+            "date": "14 Oct 2023",
+            "similarity_index": "88%",
+            "mdrm_values": ["G499", "G500", "G501"]
+          }
+        ]
+      },
+      "FRY9C": {
+        "Schedule Name": "Schedule HC-Q",
+        "Schedule Category": "Assets",
+        "Regulatory Code": ["RCFD", "BHCK"],
+        "matched values": [
+          {
+            "line": "Other Trading Assets - Corporate Bonds",
+            "region": "EMEA",
+            "country": "UK",
+            "date": "20 May 2021",
+            "similarity_index": "55%",
+            "mdrm_values": ["G497", "G498"]
+          },
+          {
+            "line": "Other Trading Assets - Equity Securities",
+            "region": "APAC",
+            "country": "India",
+            "date": "30 Jul 2020",
+            "similarity_index": "87%",
+            "mdrm_values": ["G499", "G500", "G501"]
+          }
+        ]
+      }
+    }
+  }
+]

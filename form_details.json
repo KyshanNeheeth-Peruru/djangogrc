@@ -1,0 +1,57 @@
+[
+    {
+      "form_name": "FFIEC031",
+      "date": "12 Feb 2020",
+      "country": "USA",
+      "content": "Federal funds sold and securities purchased under agreements to resell",
+      "schedule_names": ["RC-Q"],
+      "schedule_category": "Assets",
+      "regulatory_codes": ["RCFD", "BHCK"],
+      "mdrm_details": [
+            { "mdrm": "G478", "taxonomy_id": "TX001", "description": "Description for G478" },
+            { "mdrm": "G479", "taxonomy_id": "TX002", "description": "Description for G479" },
+            { "mdrm": "G480", "taxonomy_id": "TX003", "description": "Description for G480" },
+            { "mdrm": "G481", "taxonomy_id": "TX004", "description": "Description for G481" },
+            { "mdrm": "G482", "taxonomy_id": "TX005", "description": "Description for G482" },
+            { "mdrm": "G483", "taxonomy_id": "TX006", "description": "Description for G483" },
+            { "mdrm": "G484", "taxonomy_id": "TX007", "description": "Description for G484" },
+            { "mdrm": "G485", "taxonomy_id": "TX008", "description": "Description for G485" },
+            { "mdrm": "G486", "taxonomy_id": "TX009", "description": "Description for G486" },
+            { "mdrm": "G487", "taxonomy_id": "TX010", "description": "Description for G487" },
+            { "mdrm": "G488", "taxonomy_id": "TX011", "description": "Description for G488" },
+            { "mdrm": "G489", "taxonomy_id": "TX012", "description": "Description for G489" },
+            { "mdrm": "G490", "taxonomy_id": "TX013", "description": "Description for G490" },
+            { "mdrm": "G491", "taxonomy_id": "TX014", "description": "Description for G491" },
+            { "mdrm": "G492", "taxonomy_id": "TX015", "description": "Description for G492" },
+            { "mdrm": "G493", "taxonomy_id": "TX016", "description": "Description for G493" },
+            { "mdrm": "G494", "taxonomy_id": "TX017", "description": "Description for G494" },
+            { "mdrm": "G495", "taxonomy_id": "TX018", "description": "Description for G495" },
+            { "mdrm": "G496", "taxonomy_id": "TX019", "description": "Description for G496" },
+            { "mdrm": "G497", "taxonomy_id": "TX020", "description": "Description for G497" }
+        ]
+
+    },
+    {
+      "form_name": "FRY9C",
+      "date": "12 Feb 2021",
+      "country": "CANADA",
+      "content": "Some other form content",
+      "schedule_names": ["HC-Q"],
+      "schedule_category": "Liabilities",
+      "regulatory_codes": ["BHCK"],
+      "mdrm_details": [
+            { "mdrm": "G498", "taxonomy_id": "TX021", "description": "Description for G498" },
+            { "mdrm": "G499", "taxonomy_id": "TX022", "description": "Description for G499" },
+            { "mdrm": "G500", "taxonomy_id": "TX023", "description": "Description for G500" },
+            { "mdrm": "G501", "taxonomy_id": "TX024", "description": "Description for G501" },
+            { "mdrm": "G502", "taxonomy_id": "TX025", "description": "Description for G502" },
+            { "mdrm": "G503", "taxonomy_id": "TX026", "description": "Description for G503" },
+            { "mdrm": "G504", "taxonomy_id": "TX027", "description": "Description for G504" },
+            { "mdrm": "G505", "taxonomy_id": "TX028", "description": "Description for G505" },
+            { "mdrm": "G506", "taxonomy_id": "TX029", "description": "Description for G506" },
+            { "mdrm": "G507", "taxonomy_id": "TX030", "description": "Description for G507" }
+        ]
+
+    }
+  ]
+  
