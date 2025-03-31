@@ -5,11 +5,13 @@ import json
 import os
 import pandas as pd
 from django.http import JsonResponse
+from difflib import SequenceMatcher
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.dirname(BASE_DIR)
 DATA_FILE = os.path.join(ROOT_DIR, "datav2.json")
 EXCEL_FILE_PATH = os.path.join(ROOT_DIR, "Lineagev2.xlsx")
+
 
 @api_view(["GET"])
 def search(request):
@@ -24,10 +26,26 @@ def search(request):
     except FileNotFoundError:
         return Response({"error": "Data file not found"}, status=500)
 
-    results = [
-        {"content": item["content"], "metadata": item["metadata"]}
-        for item in data if query in item["content"].lower()
-    ]
+    def calculate_similarity(a, b):
+        ratio = SequenceMatcher(None, a.lower(), b.lower()).ratio()
+        return f"{round(ratio * 100)}%"
+
+    results = []
+
+    for item in data:
+        if query in item["content"].lower():
+            new_metadata = {}
+            for form_key, form_entries in item["metadata"].items():
+                updated_entries = []
+                for entry in form_entries:
+                    entry["similarity_index"] = calculate_similarity(query, entry["line"])
+                    updated_entries.append(entry)
+                new_metadata[form_key] = updated_entries
+
+            results.append({
+                "content": item["content"],
+                "metadata": new_metadata
+            })
 
     return Response({"results": results if results else "No results found"})
 

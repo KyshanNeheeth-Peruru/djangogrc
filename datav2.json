@@ -2,58 +2,43 @@
   {
     "content": "1. Available-for-sale debt securities and equity securities with readily determinable fair values not held for trading",
     "metadata": {
-      "FFIEC031(2023)": [
+      "FFIEC031 (2024)": [
         {
-          "line": "Available-for-sale securities - Long Term",
+          "line": "Available-for-sale debt securities and equity securities with readily determinable fair values not held for trading",
           "Schedule Name": "Schedule RC-Q",
           "Schedule Category": "Assets",
           "Regulatory Code": "RCFD",
-          "mdrm_values": ["G475"],
-          "similarity_index": "84%"
+          "mdrm_values": ["JA36","G474","G475","G476","G477"]
         },
         {
-          "line": "Available-for-sale securities - Short Term",
-          "Schedule Name": "Schedule RC-Q",
-          "Schedule Category": "Assets",
-          "Regulatory Code": "RCFD",
-          "mdrm_values": ["G476", "G477"],
-          "similarity_index": "78%"
+          "line": "Total held-to-maturity and available-for-sale debt securities",
+          "Schedule Name": "Schedule RC-H",
+          "Schedule Category": "Selected Balance Sheet Items for Domestic Offices",
+          "Regulatory Code": "RCON",
+          "mdrm_values": ["1754","1773"]
         }
       ],
-      "FFIEC031(2022)": [
+      "FRY9C (2024)": [
         {
-          "line": "Available-for-sale securities - Long Term",
+          "line": "Available-for-sale debt securities and equity securities with readily determinable fair values not held for trading",
           "Schedule Name": "Schedule RC-Q",
           "Schedule Category": "Assets",
-          "Regulatory Code": "RCFD",
-          "mdrm_values": ["G475"],
-          "similarity_index": "84%"
+          "Regulatory Code": "BHCY",
+          "mdrm_values": ["JA36"]
         },
         {
-          "line": "Available-for-sale securities - Short Term",
+          "line": "Available-for-sale debt securities and equity securities with readily determinable fair values not held for trading",
           "Schedule Name": "Schedule RC-Q",
           "Schedule Category": "Assets",
-          "Regulatory Code": "RCFD",
-          "mdrm_values": ["G476", "G477"],
-          "similarity_index": "78%"
-        }
-      ],
-      "FRY9C": [
-        {
-          "line": "Available-for-sale securities - Long Term",
-          "Schedule Name": "Schedule HC-Q",
-          "Schedule Category": "Assets",
           "Regulatory Code": "BHCK",
-          "mdrm_values": ["JA36", "G474", "G475"],
-          "similarity_index": "81%"
+          "mdrm_values": ["G474", "G475","G476", "G477"]
         },
         {
-          "line": "Available-for-sale securities - Short Term",
-          "Schedule Name": "Schedule HC-Q",
-          "Schedule Category": "Assets",
+          "line": "Realized gains (losses) on available-for-sale debt securities",
+          "Schedule Name": "Schedule HI",
+          "Schedule Category": "Consolidated Income Statement",
           "Regulatory Code": "BHCK",
-          "mdrm_values": ["G476", "G477"],
-          "similarity_index": "72%"
+          "mdrm_values": ["3196"]
         }
       ]
     }
@@ -61,40 +46,36 @@
   {
     "content": "2. Federal funds sold",
     "metadata": {
-      "FFIEC031": [
+      "FFIEC031 (2024)": [
         {
           "line": "Federal funds - Main Transactions",
           "Schedule Name": "Schedule RC-Q",
           "Schedule Category": "Assets",
           "Regulatory Code": "RCFD",
-          "mdrm_values": ["G478", "G479", "G480"],
-          "similarity_index": "82%"
+          "mdrm_values": ["G478", "G479", "G480"]
         },
         {
           "line": "Federal funds - Agreement Securities",
           "Schedule Name": "Schedule RC-Q",
           "Schedule Category": "Assets",
           "Regulatory Code": "RCFD",
-          "mdrm_values": ["G481", "G482"],
-          "similarity_index": "76%"
+          "mdrm_values": ["G481", "G482"]
         }
       ],
-      "FRY9C": [
+      "FRY9C (2024)": [
         {
           "line": "Federal funds - Main Transactions",
           "Schedule Name": "Schedule HC-Q",
           "Schedule Category": "Assets",
           "Regulatory Code": "BHCK",
-          "mdrm_values": ["G478", "G479", "G480"],
-          "similarity_index": "79%"
+          "mdrm_values": ["G478", "G479", "G480"]
         },
         {
           "line": "Federal funds - Agreement Securities",
           "Schedule Name": "Schedule HC-Q",
           "Schedule Category": "Assets",
           "Regulatory Code": "BHCK",
-          "mdrm_values": ["G481", "G482"],
-          "similarity_index": "70%"
+          "mdrm_values": ["G481", "G482"]
         }
       ]
     }
@@ -104,36 +85,32 @@
     "metadata": {
       "FFIEC031 (2024)": [
         {
-          "line": "Loans held for sale",
+          "line": "Loans and leases held for sale",
           "Schedule Name": "Schedule RC-Q",
           "Schedule Category": "Assets",
           "Regulatory Code": "RCFD",
-          "mdrm_values": ["G483", "G484", "G485", "G486", "G487"],
-          "similarity_index": "92%"
+          "mdrm_values": ["G483", "G484", "G485", "G486", "G487"]
         },
         {
           "line": "Loans and leases held for investment",
           "Schedule Name": "Schedule RC-Q",
           "Schedule Category": "Assets",
           "Regulatory Code": "RCFD",
-          "mdrm_values": ["G488", "G489", "G490", "G491", "G492"],
-          "similarity_index": "90%"
+          "mdrm_values": ["G488", "G489", "G490", "G491", "G492"]
         },
         {
           "line": "Loans and leases held for investment",
           "Schedule Name": "Schedule RC-R",
           "Schedule Category": "Qualifying Criteria",
           "Regulatory Code": "RCFA",
-          "mdrm_values": ["JJ30"],
-          "similarity_index": "88%"
+          "mdrm_values": ["JJ30"]
         },
         {
           "line": "Loans and leases held for sale",
           "Schedule Name": "Schedule RC-N",
           "Schedule Category": "Memoranda",
           "Regulatory Code": "RCFD",
-          "mdrm_values": ["C240","C241","C226"],
-          "similarity_index": "85%"
+          "mdrm_values": ["C240","C241","C226"]
         }
       ],
       "FRY9C (2024)": [
@@ -142,32 +119,28 @@
           "Schedule Name": "Schedule HC-Q",
           "Schedule Category": "Assets",
           "Regulatory Code": "BHCY",
-          "mdrm_values": ["G483"],
-          "similarity_index": "96%"
+          "mdrm_values": ["G483"]
         },
         {
           "line": "Loans and leases held for sale",
           "Schedule Name": "Schedule HC-Q",
           "Schedule Category": "Assets",
           "Regulatory Code": "BHCK",
-          "mdrm_values": ["G484","G485","G486","G487"],
-          "similarity_index": "96%"
+          "mdrm_values": ["G484","G485","G486","G487"]
         },
         {
           "line": "Loans and leases held for investment",
           "Schedule Name": "Schedule HC-Q",
           "Schedule Category": "Assets",
           "Regulatory Code": "BHCY",
-          "mdrm_values": ["G488"],
-          "similarity_index": "95%"
+          "mdrm_values": ["G488"]
         },
         {
           "line": "Loans and leases held for investment",
           "Schedule Name": "Schedule HC-Q",
           "Schedule Category": "Assets",
           "Regulatory Code": "BHCK",
-          "mdrm_values": ["G489","G490","G491","G492"],
-          "similarity_index": "94%"
+          "mdrm_values": ["G489","G490","G491","G492"]
         }
       ]
     }
