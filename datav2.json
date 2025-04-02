@@ -126,14 +126,7 @@
           "Schedule Name": "Schedule HC-Q",
           "Schedule Category": "Assets",
           "Regulatory Code": "BHCK",
-          "mdrm_values": ["G484","G485","G486","G487"]
-        },
-        {
-          "line": "Loans and leases held for investment",
-          "Schedule Name": "Schedule HC-Q",
-          "Schedule Category": "Assets",
-          "Regulatory Code": "BHCY",
-          "mdrm_values": ["G488"]
+          "mdrm_values": ["G488","G484","G485","G486","G487"]
         },
         {
           "line": "Loans and leases held for investment",
