@@ -1,6 +1,6 @@
 [
   {
-    "content": "1. Available-for-sale debt securities and equity securities with readily determinable fair values not held for trading",
+    "content": "1. Available-for-sale debt securities and equity securities with readily determinable fair values not held for trading, Total held-to-maturity and available-for-sale debt securities",
     "metadata": {
       "FFIEC031 (2024)": [
         {
@@ -44,7 +44,7 @@
     }
   },
   {
-    "content": "2. Federal funds sold",
+    "content": "2. Federal funds sold, Federal funds - Main Transactions, Federal funds - Agreement Securities",
     "metadata": {
       "FFIEC031 (2024)": [
         {
@@ -81,7 +81,7 @@
     }
   },
   {
-    "content": "3. Loans and leases held for sale",
+    "content": "3. Loans and leases held for sale, Loans and leases held for investment",
     "metadata": {
       "FFIEC031 (2024)": [
         {
