@@ -6,15 +6,15 @@ import os
 import pandas as pd
 from django.http import JsonResponse
 from difflib import SequenceMatcher
-# from sentence_transformers import SentenceTransformer
-# from sklearn.metrics.pairwise import cosine_similarity
-# import numpy as np
+from sentence_transformers import SentenceTransformer
+from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.dirname(BASE_DIR)
 DATA_FILE = os.path.join(ROOT_DIR, "datav2.json")
 EXCEL_FILE_PATH = os.path.join(ROOT_DIR, "Lineagev2.xlsx")
-# model = SentenceTransformer('all-MiniLM-L6-v2')
+model = SentenceTransformer('all-MiniLM-L6-v2')
 
 
 @api_view(["GET"])
@@ -30,14 +30,14 @@ def search(request):
     except FileNotFoundError:
         return Response({"error": "Data file not found"}, status=500)
     
-    # def calculate_similarity(a, b):
-    #     embeddings = model.encode([a, b])
-    #     similarity = cosine_similarity([embeddings[0]], [embeddings[1]])[0][0]
-    #     return f"{round(similarity * 100)}%"
-
     def calculate_similarity(a, b):
-        ratio = SequenceMatcher(None, a.lower(), b.lower()).ratio()
-        return f"{round(ratio * 100)}%"
+        embeddings = model.encode([a, b])
+        similarity = cosine_similarity([embeddings[0]], [embeddings[1]])[0][0]
+        return f"{round(similarity * 100)}%"
+
+    # def calculate_similarity(a, b):
+    #     ratio = SequenceMatcher(None, a.lower(), b.lower()).ratio()
+    #     return f"{round(ratio * 100)}%"
 
     results = []
 
