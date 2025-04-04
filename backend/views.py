@@ -9,6 +9,7 @@ from difflib import SequenceMatcher
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
+from django.shortcuts import render
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.dirname(BASE_DIR)
@@ -16,6 +17,8 @@ DATA_FILE = os.path.join(ROOT_DIR, "datav2.json")
 EXCEL_FILE_PATH = os.path.join(ROOT_DIR, "Lineagev2.xlsx")
 model = SentenceTransformer('all-MiniLM-L6-v2')
 
+def lineage_graph_view(request):
+    return render(request, 'lineage_graph.html')
 
 @api_view(["GET"])
 def search(request):

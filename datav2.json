@@ -21,14 +21,14 @@
       "FRY9C (2024)": [
         {
           "line": "Available-for-sale debt securities and equity securities with readily determinable fair values not held for trading",
-          "Schedule Name": "Schedule RC-Q",
+          "Schedule Name": "Schedule HC-Q",
           "Schedule Category": "Assets",
           "Regulatory Code": "BHCY",
           "mdrm_values": ["JA36"]
         },
         {
           "line": "Available-for-sale debt securities and equity securities with readily determinable fair values not held for trading",
-          "Schedule Name": "Schedule RC-Q",
+          "Schedule Name": "Schedule HC-Q",
           "Schedule Category": "Assets",
           "Regulatory Code": "BHCK",
           "mdrm_values": ["G474", "G475","G476", "G477"]
@@ -118,22 +118,15 @@
           "line": "Loans and leases held for sale",
           "Schedule Name": "Schedule HC-Q",
           "Schedule Category": "Assets",
-          "Regulatory Code": "BHCY",
-          "mdrm_values": ["G483"]
-        },
-        {
-          "line": "Loans and leases held for sale",
-          "Schedule Name": "Schedule HC-Q",
-          "Schedule Category": "Assets",
           "Regulatory Code": "BHCK",
-          "mdrm_values": ["G488","G484","G485","G486","G487"]
+          "mdrm_values": ["G483","G484","G485","G486","G487"]
         },
         {
           "line": "Loans and leases held for investment",
           "Schedule Name": "Schedule HC-Q",
           "Schedule Category": "Assets",
           "Regulatory Code": "BHCK",
-          "mdrm_values": ["G489","G490","G491","G492"]
+          "mdrm_values": ["G488","G489","G490","G491","G492"]
         }
       ]
     }
