@@ -18,7 +18,116 @@ EXCEL_FILE_PATH = os.path.join(ROOT_DIR, "Lineagev2.xlsx")
 model = SentenceTransformer('all-MiniLM-L6-v2')
 
 def lineage_graph_view(request):
-    return render(request, 'lineage_graph.html')
+    lineage_json = {
+  "HC_C": {
+    "tables": [""],
+    "value_flows_from": ["Loan_Accounting_Subledger", "Core_Banking_Transactions", "Amortization_Schedule_Table"],
+    "columns": {
+      "CI_loans": [[""], [""]],
+      "Real_estate_loans": [[""], [""]],
+      "Consumer_loans": [[""], [""]],
+      "Lease_financing_receivables": [[""], [""]],
+      "Federal_funds_sold": [[""], [""]],
+      "Unearned_income": [[""], [""]]
+    },
+    "table_name": "HC_C",
+    "sql": "this is a base table from Schedule HC-C: Loans and Lease Financing Receivables"
+  },
+  "HC_N": {
+    "tables": [""],
+    "value_flows_from": ["Loan_Provisioning_Engine", "Allowance_Calculation_Table"],
+    "columns": {
+      "Interest_accruals": [[""], [""]],
+      "Credit_impairment_reserve": [[""], [""]]
+    },
+    "table_name": "HC_N",
+    "sql": "this is a base table from Schedule HC-N: Allowance for Loan and Lease Losses"
+  },
+  "HC_A": {
+    "tables": [""],
+    "value_flows_from": ["Loan_Sales_System", "Held_For_Sale_Tracker"],
+    "columns": {
+      "CI_loans_HFS": [[""], [""]],
+      "Real_estate_loans_HFS": [[""], [""]],
+      "Consumer_loans_HFS": [[""], [""]],
+      "Foreign_loans_HFS": [[""], [""]]
+    },
+    "table_name": "HC_A",
+    "sql": "this is a base table from Schedule HC-A: Loans and Leases Held for Sale"
+  },
+  "HC_Q": {
+    "tables": [""],
+    "value_flows_from": ["Fair_Value_Model_Results", "Market_Data_Feed", "Valuation_Adjustments_Table"],
+    "columns": {
+      "Fair_value_adjustments_HFS": [[""], [""]],
+      "Fair_value_adjustments_AFS": [[""], [""]]
+    },
+    "table_name": "HC_Q",
+    "sql": "this is a base table from Schedule HC-Q: Fair Value Measurements"
+  },
+  "HC_B": {
+    "tables": [""],
+    "value_flows_from": ["Securities_Inventory", "Investment_Subledger", "Trade_Execution_Reports"],
+    "columns": {
+      "Available_for_sale_debt_securities": [[""], [""]]
+    },
+    "table_name": "HC_B",
+    "sql": "this is a base table from Schedule HC-B: Securities"
+  },
+  "HC_Q_assets": {
+    "tables": ["HC_C", "HC_N", "HC_A", "HC_Q", "HC_B"],
+    "value_flows_from": [],
+    "columns": {
+      "Loans_and_leases_held_for_sale": [
+        ["HC_A.CI_loans_HFS", "HC_A.Real_estate_loans_HFS", "HC_A.Consumer_loans_HFS", "HC_A.Foreign_loans_HFS"],
+        ["HC_Q.Fair_value_adjustments_HFS"]
+      ],
+      "Loans_and_leases_held_for_investment": [
+        ["HC_C.CI_loans", "HC_C.Real_estate_loans", "HC_C.Consumer_loans", "HC_C.Lease_financing_receivables"],
+        ["HC_C.Unearned_income", "HC_N.Interest_accruals"]
+      ],
+      "Federal_funds_sold": [
+        ["HC_C.Federal_funds_sold"],
+        ["Credit_impairment_reserve"]
+      ],
+      "Available_for_sale_debt_securities": [
+        ["HC_B.Available_for_sale_debt_securities", "HC_N.Credit_impairment_reserve"],
+        ["HC_Q.Fair_value_adjustments_AFS", "HC_N.Interest_accruals"]
+      ]
+    },
+    "table_name": "HC_Q_assets",
+    "sql": "SELECT derived asset balances including Loans Held for Investment/Sale and other components from HC_C, HC_N, HC_A, HC_Q, HC_B"
+  },
+  "Rule_lineage": {
+    "tables": ["HC_Q_assets"],
+    "columns": {
+      "Transaction_ID": [
+        ["HC_Q_assets.Loans_and_leases_held_for_sale"],
+        ["HC_Q_assets.Loans_and_leases_held_for_investment", "HC_Q_assets.Federal_funds_sold"]
+      ],
+      "Amount": [
+        ["HC_Q_assets.Loans_and_leases_held_for_investment"],
+        ["HC_Q_assets.Loans_and_leases_held_for_investment", "HC_Q_assets.Federal_funds_sold"]
+      ],
+      "Counter_party": [
+        ["HC_Q_assets.Available_for_sale_debt_securities"],
+        ["HC_Q_assets.Loans_and_leases_held_for_investment", "HC_Q_assets.Federal_funds_sold"]
+      ],
+      "Securities_Purchased": [
+        ["HC_Q_assets.Loans_and_leases_held_for_investment"],
+        ["HC_Q_assets.Loans_and_leases_held_for_investment", "HC_Q_assets.Federal_funds_sold"]
+      ],
+      "Quarterly_investment": [
+        [""],
+        [""]
+      ]
+    },
+    "table_name": "Rule_lineage",
+    "sql": "SELECT Transaction_ID, Amount, Counterparty, CASE WHEN Amount < 1000000 THEN 'Below Threshold' ELSE 'Above Threshold' END AS Securities_Purchased FROM HC_Q_assets WHERE Transaction_Type = 'Federal Funds Sold' AND Amount < 1000000"
+  }
+}
+    
+    return render(request, 'lineage_graph.html', {"inline_data": json.dumps(lineage_json)})
 
 @api_view(["GET"])
 def search(request):
