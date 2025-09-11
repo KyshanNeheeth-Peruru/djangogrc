@@ -19,6 +19,14 @@ from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 from django.shortcuts import render
 from dotenv import load_dotenv
+from .models import Prompt
+
+def get_prompt_text(name="default"):
+    try:
+        return Prompt.objects.get(name=name).content
+    except Prompt.DoesNotExist:
+        return "Default fallback prompt."
+
 
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -143,7 +151,6 @@ def lineage_graph_view(request):
 
 def brd_generation_view(request):
     context = {}
-    print(platform.system())
 
     if request.method == "POST" and request.FILES.get("brd_pdf"):
       # uploaded_file = request.FILES["brd_pdf"]
@@ -236,20 +243,7 @@ def image_to_base64(image):
 def call_openai_vision(image, page_number):
   base64_image = image_to_base64(image)
   
-  prompt = f"""
-    You are an intelligent document parser.
-
-    Extract all meaningful text and structure from this image of a regulatory document page. Your output should be complete and cover:
-
-    - All requirement IDs or numbers (e.g., MAR10.1, MAR10.2, etc.)
-    - Full requirement descriptions as stated
-    - Requirement Type if visible (Functional, Non-functional, Security, UI, Reporting, Other)
-    - Any mathematical **formulas must be fully captured** and represented in LaTeX syntax, wrapped inside `\\(...\\)` so they render correctly in MathJax.
-    - Preserve section numbers and logical structure
-    - Do NOT skip any formula — even partial or multi-line ones
-
-    Return clean, readable extracted content ready to be passed into a BRD parser.
-  """
+  prompt = get_prompt_text(name="desc_image")
   
   response = openai.ChatCompletion.create(model="gpt-4o",
     messages=[
@@ -263,34 +257,8 @@ def call_openai_vision(image, page_number):
 
 
 def extract_structured_requirements(complete_content: str) -> list[dict]:
-  prompt = f"""
-    You are an expert Business Analyst. The following text was extracted from a Regulatory Document and needs to be converted into a Business Requirements Document (BRD).
-
-    Your task is to extract individual requirements and return them as a list of Python dictionaries, each with the following fields:
-
-    [
-      {{
-        "id": "Requirement ID from document (e.g., MAR10.1)",
-        "description": "Complete requirement description including all necessary details and formulas",
-        "type": "Functional / Non-Functional / Security / UI / Reporting / Other"
-      }},
-      ...
-    ]
-
-    Instructions:
-    - Each dictionary represents **one** requirement.
-    - Use the **same ID format** as in the document (e.g., MAR10.1, MAR10.2, etc.)
-    - Descriptions must be **detailed and complete**, and must include **all formulas mentioned**.
-    - **All formulas** must be preserved in **LaTeX syntax**, wrapped with `\\(...\\)` so they render in MathJax.
-    - Escape all LaTeX backslashes as **double backslashes (\\\\)** to ensure JSON validity.
-    - Only include valid Python or JSON — **no explanation, no extra text**.
-
-    Input BRD Content:
-    \"\"\"
-    {complete_content}
-    \"\"\"
-  """
-
+  prompt_text = get_prompt_text(name="brd_gen")
+  prompt = prompt_text.format(complete_content= complete_content)
 
   response = openai.ChatCompletion.create(
         model="gpt-4o",
