@@ -6,11 +6,22 @@ import os
 import pandas as pd
 from django.http import JsonResponse
 from difflib import SequenceMatcher
+import platform
+from pdf2image import convert_from_bytes
+from django.core.files.uploadedfile import UploadedFile
+from PIL import Image
+import io
+import re
+import base64
+import openai
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 from django.shortcuts import render
+from dotenv import load_dotenv
 
+load_dotenv()
+openai.api_key = os.getenv("OPENAI_API_KEY")
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.dirname(BASE_DIR)
 DATA_FILE = os.path.join(ROOT_DIR, "datav2.json")
@@ -128,6 +139,189 @@ def lineage_graph_view(request):
 }
     
     return render(request, 'lineage_graph.html', {"inline_data": json.dumps(lineage_json)})
+
+
+def brd_generation_view(request):
+    context = {}
+    print(platform.system())
+
+    if request.method == "POST" and request.FILES.get("brd_pdf"):
+      # uploaded_file = request.FILES["brd_pdf"]
+        
+# =========================================================================================================
+      uploaded_file = request.FILES["brd_pdf"]
+      # Convert PDF to images (each page = one image)
+      try:
+        if platform.system() == "Windows":
+          images = convert_from_bytes(
+          uploaded_file.read(),
+          dpi=200,
+          poppler_path=r"C:\Users\kisha\Downloads\Release-25.07.0-0\poppler-25.07.0\Library\bin"
+          )
+        else:
+          images = convert_from_bytes(uploaded_file.read(), dpi=200)
+      except Exception as e:
+        context["error"] = f"Failed to convert PDF: {e}"
+        return render(request, "brd_gen.html", context)
+
+      complete_content = ""
+      for i, image in enumerate(images):
+        print(f"Processing page {i+1}...")
+        extracted_text = call_openai_vision(image, i+1)
+        complete_content += f"\n\n--- Page {i+1} ---\n{extracted_text}"
+      
+      print("========================================================================")
+      # print(complete_content)
+      requirements = extract_structured_requirements(complete_content)
+      
+      # for req in requirements:
+      #   req["description"] = format_description_for_mathjax(req["description"])
+
+      
+      print(requirements)
+        
+# =========================================================================================================
+
+      # requirements = [
+      #       {"id": "REQ-001", "description": "User login functionality", "type": "Functional"},
+      #       {"id": "REQ-002", "description": "Password encryption", "type": "Security"},
+      #       {"id": "REQ-003", "description": "Data backup every 24 hours", "type": "Non-Functional"},
+      # ]
+
+      context["requirements"] = requirements
+      context["uploaded_file_name"] = uploaded_file.name
+
+    return render(request, "brd_gen.html", context)
+
+def format_description_for_mathjax(desc: str) -> str:
+    # 1. Clean symbols
+    desc = desc.replace("×", r"\times")
+    desc = desc.replace("²", "^2")
+    desc = desc.replace("−", "-")
+    desc = desc.replace("∑", r"\sum")
+    desc = desc.replace("ρ", r"\rho")
+    desc = desc.replace("γ", r"\gamma")
+    desc = desc.replace("Δ", r"\Delta")
+    desc = desc.replace("≤", r"\leq")
+    desc = desc.replace("≥", r"\geq")
+
+    # 2. Find likely formulas to wrap
+    # These patterns assume formulas are standalone or comma-separated
+    formula_pattern = re.compile(
+        r'(?<!\\)(Kb\s*=.*?)(?=[.,;]|$)|'     # Match formula starting with Kb = ...
+        r'(?<!\\)(WSk\s*=.*?)(?=[.,;]|$)|'    # Match WSk = ...
+        r'(?<!\\)(Sb\s*=.*?)(?=[.,;]|$)|'     # Match Sb = ...
+        r'(?<!\\)(Sc\s*=.*?)(?=[.,;]|$)|'     # Match Sc = ...
+        r'(?<!\\)(CVRk[+-]\s*=.*?)(?=[.,;]|$)'  # Match CVRk+ = ...
+    )
+
+    def wrap_formula(match):
+        formula = match.group(0)
+        return r"\(" + formula.strip() + r"\)"
+
+    # Apply the wrapping only on formula fragments
+    desc = formula_pattern.sub(wrap_formula, desc)
+
+    # Optional: turn newlines into <br> to preserve formatting
+    desc = desc.replace("\n", "<br>")
+    return desc
+
+
+
+def image_to_base64(image):
+    buffered = io.BytesIO()
+    image.save(buffered, format="PNG")
+    return base64.b64encode(buffered.getvalue()).decode("utf-8")
+
+def call_openai_vision(image, page_number):
+  base64_image = image_to_base64(image)
+  
+  prompt = f"""
+    You are an intelligent document parser.
+
+    Extract all meaningful text and structure from this image of a regulatory document page. Your output should be complete and cover:
+
+    - All requirement IDs or numbers (e.g., MAR10.1, MAR10.2, etc.)
+    - Full requirement descriptions as stated
+    - Requirement Type if visible (Functional, Non-functional, Security, UI, Reporting, Other)
+    - Any mathematical **formulas must be fully captured** and represented in LaTeX syntax, wrapped inside `\\(...\\)` so they render correctly in MathJax.
+    - Preserve section numbers and logical structure
+    - Do NOT skip any formula — even partial or multi-line ones
+
+    Return clean, readable extracted content ready to be passed into a BRD parser.
+  """
+  
+  response = openai.ChatCompletion.create(model="gpt-4o",
+    messages=[
+      {"role": "user", "content": [{"type": "text", "text": prompt},
+      {"type": "image_url", "image_url": {
+      "url": f"data:image/png;base64,{base64_image}"}}]}
+      ],max_tokens=2000,
+    )
+
+  return response.choices[0].message.content
+
+
+def extract_structured_requirements(complete_content: str) -> list[dict]:
+  prompt = f"""
+    You are an expert Business Analyst. The following text was extracted from a Regulatory Document and needs to be converted into a Business Requirements Document (BRD).
+
+    Your task is to extract individual requirements and return them as a list of Python dictionaries, each with the following fields:
+
+    [
+      {{
+        "id": "Requirement ID from document (e.g., MAR10.1)",
+        "description": "Complete requirement description including all necessary details and formulas",
+        "type": "Functional / Non-Functional / Security / UI / Reporting / Other"
+      }},
+      ...
+    ]
+
+    Instructions:
+    - Each dictionary represents **one** requirement.
+    - Use the **same ID format** as in the document (e.g., MAR10.1, MAR10.2, etc.)
+    - Descriptions must be **detailed and complete**, and must include **all formulas mentioned**.
+    - **All formulas** must be preserved in **LaTeX syntax**, wrapped with `\\(...\\)` so they render in MathJax.
+    - Escape all LaTeX backslashes as **double backslashes (\\\\)** to ensure JSON validity.
+    - Only include valid Python or JSON — **no explanation, no extra text**.
+
+    Input BRD Content:
+    \"\"\"
+    {complete_content}
+    \"\"\"
+  """
+
+
+  response = openai.ChatCompletion.create(
+        model="gpt-4o",
+        messages=[
+            {"role": "user", "content": prompt}
+        ],
+        temperature=0.2,
+        max_tokens=2000
+    )
+
+  raw_output = response.choices[0].message.content.strip()
+  cleaned_output = clean_llm_response(raw_output)
+  print(cleaned_output)
+  return json.loads(cleaned_output)
+
+
+def clean_llm_response(raw_output: str) -> str:
+    """
+    Remove markdown code block markers like ```python or ```
+    """
+    lines = raw_output.strip().splitlines()
+
+    # Remove starting line if it's ``` or ```python
+    if lines and lines[0].strip().startswith("```"):
+        lines = lines[1:]
+
+    # Remove ending line if it's ```
+    if lines and lines[-1].strip() == "```":
+        lines = lines[:-1]
+
+    return "\n".join(lines).strip()
 
 @api_view(["GET"])
 def search(request):

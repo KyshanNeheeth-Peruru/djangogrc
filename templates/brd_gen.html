@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="/LTIM_logo.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BRD Generation</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      background: linear-gradient(to right, rgb(21, 90, 186), rgb(230, 209, 29));
+      padding: 20px;
+    }
+    .form-section {
+      background-color: #ffffff;
+      padding: 40px;
+      border-radius: 10px;
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    }
+    table {
+      width: 100%;
+      margin-top: 30px;
+      border-collapse: collapse;
+      background: white;
+    }
+    th, td {
+      padding: 12px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+    th {
+      background-color: #1976d2;
+      color: white;
+    }
+  </style>
+  <script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+
+
+</head>
+<body>
+
+  <div style="text-align:center; margin-bottom: 30px;">
+    <img src="{% static 'images/logo.png' %}" alt="Logo" height="50">
+  </div>
+
+  <div class="form-section">
+    <h2 style="color: #1a237e; margin-bottom: 30px;">📄 BRD Generator</h2>
+
+    <!-- Upload Form -->
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <input 
+        type="file" 
+        name="brd_pdf" 
+        accept="application/pdf"
+        required
+        style="display: block; margin: 0 auto 20px auto; padding: 10px; border: 2px dashed #ccc; border-radius: 10px; background-color: #fff; max-width: 400px; width: 100%;"
+      />
+      <button 
+        type="submit" 
+        style="padding: 10px 24px; background-color: #1976d2; color: white; border: none; border-radius: 6px; font-size: 16px; cursor: pointer;"
+      >
+        Submit
+      </button>
+    </form>
+
+    <!-- File info -->
+    {% if uploaded_file_name %}
+      <p style="margin-top: 20px;">✅ Uploaded: <strong>{{ uploaded_file_name }}</strong></p>
+    {% endif %}
+
+    <!-- Results Table -->
+    {% if requirements %}
+      <h3 style="margin-top: 40px;">📋 Extracted Requirements</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Requirement ID</th>
+            <th>Description</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for req in requirements %}
+          <tr>
+            <td>{{ req.id }}</td>
+            <td>{{ req.description|safe }}</td>  <!-- safe is necessary for MathJax rendering -->
+            <td>{{ req.type }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% endif %}
+  </div>
+
+</body>
+</html>

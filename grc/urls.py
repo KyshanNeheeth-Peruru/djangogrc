@@ -22,4 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("api/", include("backend.urls")),
     path('lineage/', backend_views.lineage_graph_view, name='lineage-graph'),
+    path('brd_generation/', backend_views.brd_generation_view, name='brd_generation'),
 ]
