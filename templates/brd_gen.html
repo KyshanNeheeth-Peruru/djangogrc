@@ -48,6 +48,20 @@
       font-size: 16px;
       cursor: pointer;
     }
+    /* Spinner Styles */
+    .loader {
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid #1976d2;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
   </style>
 
   <!-- MathJax -->
@@ -85,10 +99,17 @@
       />
       <button 
         type="submit" 
+        id="submit-btn"
         style="padding: 10px 24px; background-color: #1976d2; color: white; border: none; border-radius: 6px; font-size: 16px; cursor: pointer;"
       >
         Submit
       </button>
+
+      <!-- Spinner (Initially hidden) -->
+      <div id="loading-spinner" style="display: none; margin-top: 20px;">
+        <div class="loader"></div>
+        <p style="color: #444;">Processing... Please wait.</p>
+      </div>
     </form>
 
     {% if uploaded_file_name %}
@@ -137,7 +158,6 @@
       await html2canvas(element, { scale: 2 }).then(canvas => {
         const imgData = canvas.toDataURL('image/png');
         const pageWidth = doc.internal.pageSize.getWidth();
-        const pageHeight = doc.internal.pageSize.getHeight();
         const imgProps = doc.getImageProperties(imgData);
         const imgHeight = (imgProps.height * pageWidth) / imgProps.width;
 
@@ -145,6 +165,16 @@
         doc.save("BRD_Requirements.pdf");
       });
     }
+
+    // Show spinner on form submit
+    const form = document.querySelector("form");
+    const submitBtn = document.getElementById("submit-btn");
+    const spinner = document.getElementById("loading-spinner");
+
+    form.addEventListener("submit", function () {
+      submitBtn.disabled = true;
+      spinner.style.display = "block";
+    });
   </script>
 </body>
 </html>
