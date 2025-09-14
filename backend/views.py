@@ -180,20 +180,18 @@ def brd_generation_view(request):
       print("========================================================================")
       # print(complete_content)
       requirements = extract_structured_requirements(complete_content)
-      
-      # for req in requirements:
-      #   req["description"] = format_description_for_mathjax(req["description"])
 
       
-      print(requirements)
         
 # =========================================================================================================
 
       # requirements = [
-      #       {"id": "REQ-001", "description": "User login functionality", "type": "Functional"},
-      #       {"id": "REQ-002", "description": "Password encryption", "type": "Security"},
-      #       {"id": "REQ-003", "description": "Data backup every 24 hours", "type": "Non-Functional"},
+      #       {"section": "1","id": "REQ-001", "description": "User login functionality", "type": "Functional"},
+      #       {"section": "2","id": "REQ-002", "description": "Password encryption", "type": "Security"},
+      #       {"section": "3","id": "REQ-003", "description": "Data backup every 24 hours", "type": "Non-Functional"},
       # ]
+      
+      print(requirements)
 
       context["requirements"] = requirements
       context["uploaded_file_name"] = uploaded_file.name

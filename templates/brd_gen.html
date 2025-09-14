@@ -18,7 +18,7 @@
       background-color: #ffffff;
       padding: 40px;
       border-radius: 10px;
-      max-width: 700px;
+      max-width: 1000px;
       margin: 0 auto;
       text-align: center;
       box-shadow: 0 0 12px rgba(0,0,0,0.1);
@@ -38,17 +38,32 @@
       background-color: #1976d2;
       color: white;
     }
+    .download-btn {
+      margin-top: 20px;
+      padding: 10px 24px;
+      background-color: #388e3c;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
   </style>
+
+  <!-- MathJax -->
   <script>
-  window.MathJax = {
-    tex: { inlineMath: [['\\(', '\\)']] },
-    svg: { fontCache: 'global' }
-  };
-</script>
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
 
-
+  <!-- jsPDF & html2canvas -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
+
 <body>
 
   <div style="text-align:center; margin-bottom: 30px;">
@@ -76,34 +91,60 @@
       </button>
     </form>
 
-    <!-- File info -->
     {% if uploaded_file_name %}
       <p style="margin-top: 20px;">✅ Uploaded: <strong>{{ uploaded_file_name }}</strong></p>
     {% endif %}
 
-    <!-- Results Table -->
     {% if requirements %}
       <h3 style="margin-top: 40px;">📋 Extracted Requirements</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Requirement ID</th>
-            <th>Description</th>
-            <th>Type</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for req in requirements %}
-          <tr>
-            <td>{{ req.id }}</td>
-            <td>{{ req.description|safe }}</td>  <!-- safe is necessary for MathJax rendering -->
-            <td>{{ req.type }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+
+      <!-- Download Button -->
+      <button class="download-btn" onclick="downloadTableAsPDF()">⬇️ Download Table as PDF</button>
+
+      <!-- Table Container -->
+      <div id="requirement-table" style="overflow-x: auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Section</th>
+              <th>ID</th>
+              <th>Description</th>
+              <th>Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for req in requirements %}
+            <tr>
+              <td>{{ req.section }}</td>
+              <td>{{ req.id }}</td>
+              <td>{{ req.description|safe }}</td>
+              <td>{{ req.type }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     {% endif %}
   </div>
 
+  <!-- JS to Download as PDF -->
+  <script>
+    async function downloadTableAsPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF('p', 'pt', 'a4');
+      const element = document.getElementById('requirement-table');
+
+      await html2canvas(element, { scale: 2 }).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const pageHeight = doc.internal.pageSize.getHeight();
+        const imgProps = doc.getImageProperties(imgData);
+        const imgHeight = (imgProps.height * pageWidth) / imgProps.width;
+
+        doc.addImage(imgData, 'PNG', 0, 20, pageWidth, imgHeight);
+        doc.save("BRD_Requirements.pdf");
+      });
+    }
+  </script>
 </body>
 </html>
