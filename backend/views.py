@@ -192,9 +192,24 @@ def brd_generation_view(request):
       # ]
       
       print(requirements)
+      
+      sections = extract_brd_sections(complete_content)
+      
+      print(sections)
 
-      context["requirements"] = requirements
-      context["uploaded_file_name"] = uploaded_file.name
+      context.update({
+          "uploaded_file_name": uploaded_file.name,
+          "requirements": requirements,
+          "executive_summary": sections.get("Executive Summary", ""),
+          "objectives": sections.get("Objectives", ""),
+          "scope": sections.get("Scope", ""),
+          "assumptions": sections.get("Assumptions", ""),
+          "out_of_scope": sections.get("Out of Scope", ""),
+          "stakeholders": sections.get("Stakeholders", "")
+      })
+
+      # context["requirements"] = requirements
+      # context["uploaded_file_name"] = uploaded_file.name
 
     return render(request, "brd_gen.html", context)
 
@@ -271,6 +286,43 @@ def extract_structured_requirements(complete_content: str) -> list[dict]:
   cleaned_output = clean_llm_response(raw_output)
   print(cleaned_output)
   return json.loads(cleaned_output)
+
+
+
+def extract_brd_sections(document_text: str) -> dict:
+  prompt_text = get_prompt_text(name="summary_gen")
+  prompt = prompt_text.format(document_text= document_text)
+
+  try:
+    response = openai.ChatCompletion.create(
+    model="gpt-4-1106-preview",
+    messages=[
+      {"role": "system", "content": "You extract structured sections from BRD documents and respond in JSON only."},
+      {"role": "user", "content": prompt}
+      ],temperature=0.2)
+    content = response.choices[0].message.content.strip()
+    try:
+      return json.loads(content)
+    except json.JSONDecodeError:
+      json_match = re.search(r"\{.*\}", content, re.DOTALL)
+    if json_match:
+        return json.loads(json_match.group())
+        print("Failed to parse JSON from LLM response.")
+    return {
+      "Executive Summary": "",
+      "Objectives": "",
+      "Scope": "",
+      "Out of Scope": ""
+    }
+
+  except Exception as e:
+    print("Error extracting BRD sections:", e)
+    return {
+      "Executive Summary": "",
+      "Objectives": "",
+      "Scope": "",
+      "Out of Scope": ""
+    }
 
 
 def clean_llm_response(raw_output: str) -> str:

@@ -18,7 +18,6 @@
       background-color: #ffffff;
       padding: 40px;
       border-radius: 10px;
-      max-width: 1000px;
       margin: 0 auto;
       text-align: center;
       box-shadow: 0 0 12px rgba(0,0,0,0.1);
@@ -48,7 +47,6 @@
       font-size: 16px;
       cursor: pointer;
     }
-    /* Spinner Styles */
     .loader {
       border: 6px solid #f3f3f3;
       border-top: 6px solid #1976d2;
@@ -64,7 +62,6 @@
     }
   </style>
 
-  <!-- MathJax -->
   <script>
     window.MathJax = {
       tex: { inlineMath: [['\\(', '\\)']] },
@@ -72,8 +69,6 @@
     };
   </script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
-
-  <!-- jsPDF & html2canvas -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
@@ -87,7 +82,6 @@
   <div class="form-section">
     <h2 style="color: #1a237e; margin-bottom: 30px;">📄 BRD Generator</h2>
 
-    <!-- Upload Form -->
     <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
       <input 
@@ -105,7 +99,6 @@
         Submit
       </button>
 
-      <!-- Spinner (Initially hidden) -->
       <div id="loading-spinner" style="display: none; margin-top: 20px;">
         <div class="loader"></div>
         <p style="color: #444;">Processing... Please wait.</p>
@@ -116,13 +109,47 @@
       <p style="margin-top: 20px;">✅ Uploaded: <strong>{{ uploaded_file_name }}</strong></p>
     {% endif %}
 
+    {% if executive_summary or objectives or scope or assumptions or out_of_scope or stakeholders %}
+      <div style="text-align: left; margin-top: 50px;">
+        <h3 style="color: #1a237e;">📘 Additional BRD Sections</h3>
+
+        {% if executive_summary %}
+          <h4 style="color: #333;">🔹 Executive Summary</h4>
+          <p>{{ executive_summary|linebreaksbr|safe }}</p>
+        {% endif %}
+
+        {% if objectives %}
+          <h4 style="color: #333;">🔹 Objectives</h4>
+          <p>{{ objectives|linebreaksbr|safe }}</p>
+        {% endif %}
+
+        {% if scope %}
+          <h4 style="color: #333;">🔹 Scope</h4>
+          <p>{{ scope|linebreaksbr|safe }}</p>
+        {% endif %}
+
+        {% if assumptions %}
+          <h4 style="color: #333;">🔹 Assumptions</h4>
+          <p>{{ assumptions|linebreaksbr|safe }}</p>
+        {% endif %}
+
+        {% if out_of_scope %}
+          <h4 style="color: #333;">🔹 Out of Scope</h4>
+          <p>{{ out_of_scope|linebreaksbr|safe }}</p>
+        {% endif %}
+
+        {% if stakeholders %}
+          <h4 style="color: #333;">🔹 Stakeholders</h4>
+          <p>{{ stakeholders|linebreaksbr|safe }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+
     {% if requirements %}
       <h3 style="margin-top: 40px;">📋 Extracted Requirements</h3>
 
-      <!-- Download Button -->
       <button class="download-btn" onclick="downloadTableAsPDF()">⬇️ Download Table as PDF</button>
 
-      <!-- Table Container -->
       <div id="requirement-table" style="overflow-x: auto;">
         <table>
           <thead>
@@ -148,7 +175,6 @@
     {% endif %}
   </div>
 
-  <!-- JS to Download as PDF -->
   <script>
     async function downloadTableAsPDF() {
       const { jsPDF } = window.jspdf;
@@ -166,7 +192,6 @@
       });
     }
 
-    // Show spinner on form submit
     const form = document.querySelector("form");
     const submitBtn = document.getElementById("submit-btn");
     const spinner = document.getElementById("loading-spinner");
